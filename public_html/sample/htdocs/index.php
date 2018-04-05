@@ -1,4 +1,5 @@
 <?php
+echo 'hoge';
 
 // システムのルートディレクトリパス
 define('ROOT_PATH', realpath(dirname(__FILE__) . '/..'));
