@@ -2,6 +2,13 @@
 
 abstract class Dispatcher
 {
+  private $sysRoot;
+
+  public function setSystemRoot($path)
+  {
+    $this->sysRoot = rtrim($path, '/');
+  }
+
   public function dispatch()
   {
     // パラメーター取得（末尾の / は削除）
@@ -19,12 +26,23 @@ abstract class Dispatcher
     }
 
     // パラメータより取得したコントローラー名によりクラス振分け
-    $controllerInstance = $this->dispatchController($controller);
-      if (null == $controllerInstance) {
-        header("HTTP/1.0 404 Not Found");
-        exit;
-      }
-    // （以下略）
+    $className = ucfirst(strtolower($controller)) . 'Controller';
+
+    // クラスファイル読込
+    require_once $this->sysRoot . '/controllers/' . $className . '.php';
+
+    // クラスインスタンス生成
+    $controllerInstance = new $className();
+
+    // 2番目のパラメーターをコントローラーとして取得
+    $action= 'index';
+    if (1 < count($params)) {
+      $action= $params[1];
+    }
+
+    // アクションメソッドを実行
+    $actionMethod = $action . 'Action';
+    $controllerInstance->$actionMethod();
   }
 
   // 振分け処理を抽象化
