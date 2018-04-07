@@ -12,7 +12,7 @@ class Dispatcher
   public function dispatch()
   {
     // パラメーター取得（末尾の / は削除）
-    $param = ereg_replace('/?$', '', $_SERVER['REQUEST_URI']);
+    $param = preg_replace('/\/?$/', '', $_SERVER['REQUEST_URI']);
 
     $params = array();
     if ('' != $param) {
@@ -22,8 +22,8 @@ class Dispatcher
 
     // １番目のパラメーターをコントローラーとして取得
     $controller = "index";
-    if (0 < count($params)) {
-      $controller = $params[0];
+    if (1 < count($params)) {
+      $controller = $params[1];
     }
 
     // パラメータより取得したコントローラー名によりクラス振分け
@@ -40,8 +40,8 @@ class Dispatcher
 
     // 2番目のパラメーターをコントローラーとして取得
     $action= 'index';
-    if (1 < count($params)) {
-      $action= $params[1];
+    if (2 < count($params)) {
+      $action= $params[2];
     }
 
     // アクションメソッドを実行
