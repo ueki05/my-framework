@@ -1,4 +1,5 @@
 <?php
+echo 'hoge';
 
 require_once './public_html/mvc/Dispatcher.php';
 
