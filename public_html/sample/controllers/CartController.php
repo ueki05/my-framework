@@ -3,12 +3,17 @@
 class CartController
 {
   private $request;
+  private $view;
 
   // コンストラクタ
   public function __counstruct()
   {
     // リクエスト
     $this->request = new Request();
+
+    // ビュー
+    $this->view = new Smarty();
+    $this->view->template_dir = '../view/templates';
   }
 
   public function displayAction()
@@ -25,7 +30,12 @@ class CartController
     $cartDetail = new CartDetail();
     $products = $cartDetail->getProductList($cartInfo['cart_id']);
 
-    echo 'display';
+    // テンプレートへ変数割り当て
+    $this->view->assign('cart_info', $cartInfo);
+    $this->view->assign('prouducts', $products);
+
+    // テンプレート表示
+    $this->view->display('cart/display.tpl');
   }
 
   public function addAction()
