@@ -1,6 +1,6 @@
 <?php
 
-class CartController
+class CartController extends ControllerBase
 {
   private $request;
   private $view;
@@ -18,24 +18,18 @@ class CartController
 
   public function displayAction()
   {
-    $req= new Request();
-    $params = $req->getQuery();
+    $params = $this->request->getParam();
     $userId = $params['user_id'];
 
     // カート基本情報を取得
-    $cart = new CartHeader();
+    $cart = new Cart();
     $cartInfo = $cart->getUserCart($userId);
+    $this->view->assign('cart_info', $cartInfo);
 
     // 商品一覧を取得
     $cartDetail = new CartDetail();
     $products = $cartDetail->getProductList($cartInfo['cart_id']);
-
-    // テンプレートへ変数割り当て
-    $this->view->assign('cart_info', $cartInfo);
-    $this->view->assign('prouducts', $products);
-
-    // テンプレート表示
-    $this->view->display('cart/display.tpl');
+    $this->view->assign('products', $products);
   }
 
   public function addAction()

@@ -51,6 +51,21 @@ abstract class ControllerBase
     }
   }
 
+  // モデルインスタンス生成処理
+  protected function createModel($className)
+  {
+    $classFile = sprintf('%s/app/models/%s.php', $this->systemRoot, $className);
+    if (false == file_exists($classFile)) {
+      return false;
+    }
+    require_once $classFile;
+    if (false == class_exists($className)) {
+      return false;
+    }
+    return new $className();
+  }
+
+
   // ビューの初期化
   protected function initializeView()
   {
