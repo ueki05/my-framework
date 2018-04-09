@@ -1,6 +1,6 @@
 <?php
 
-require_once '../view/Smarty.class.php';
+require_once("Smarty/Smarty.class.php");
 require_once '../../library/Request.php';
 
 class Dispatcher

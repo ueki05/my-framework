@@ -14,6 +14,15 @@ function __autoload($className){
   require_once $className . ".php";
 }
 
+// DB接続情報設定
+$connInfo = array(
+  'host'     => 'localhost',
+  'dbname'   => 'sample',
+  'dbuser'   => 'root',
+  'password' => 'root'
+);
+ModelBase::setConnectionInfo($connInfo);
+
 $dispatcher = new Dispatcher();
 $dispatcher->setSystemRoot(ROOT_PATH);
 $dispatcher->dispatch();

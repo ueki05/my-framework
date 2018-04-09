@@ -1,14 +1,9 @@
 <?php
 
-class CartDetail
+class CartDetail extends ModelBase
 {
   private $db;
   private $name = 'cart_detail';
-
-  public function __construct($user, $pass)
-  {
-    $this->db = new PDO($user, $pass);
-  }
 
   // 商品リスト取得
   public function getList($cartId)
