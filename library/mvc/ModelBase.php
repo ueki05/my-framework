@@ -9,6 +9,11 @@ class ModelBase
   public function __construct()
   {
     $this->initDb();
+
+    // 継承先で$nameが設定されていない場合はクラス名からテーブル名を生成
+    if ($this->name == null) {
+      $this->setDefaultTableName();
+    }
   }
 
   public function initDb()
@@ -26,20 +31,20 @@ class ModelBase
     self::$connInfo = $connInfo;
   }
 
-    // クエリ結果を取得
-    public function query($sql, array $params = array())
-    {
-        $stmt = $this->db->prepare($sql);
-        if ($params != null) {
-            foreach ($params as $key => $val) {
-                $stmt->bindValue(':' . $key, $val);
-            }
-        }
-        $stmt->execute();
-        $rows = $stmt->fetchAll();
-
-        return $rows;
+  // クエリ結果を取得
+  public function query($sql, array $params = array())
+  {
+    $stmt = $this->db->prepare($sql);
+    if ($params != null) {
+      foreach ($params as $key => $val) {
+        $stmt->bindValue(':' . $key, $val);
+      }
     }
+    $stmt->execute();
+    $rows = $stmt->fetchAll();
+
+    return $rows;
+  }
 
   // INSERTを実行
   public function insert($data)
@@ -83,4 +88,19 @@ class ModelBase
     return $res;
   }
 
+  public function setDefaultTableName()
+  {
+    $className = get_class($this);
+    $len = strlen($className);
+    $tableName = '';
+    for ($i = 0; $i < $len; $i++) {
+      $char = substr($className, $i, 1);
+      $lower = strtolower($char);
+      if ($i > 0 && $char != $lower) {
+        $tableName .= '_';
+      }
+      $tableName .= $lower;
+    }
+    $this->name  = $tableName;
+  }
 }
