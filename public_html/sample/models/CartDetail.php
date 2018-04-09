@@ -2,16 +2,14 @@
 
 class CartDetail extends ModelBase
 {
-  private $db;
   private $name = 'cart_detail';
 
   // 商品リスト取得
   public function getList($cartId)
   {
     $sql = sprintf('SELECT * FROM %s where cart_id = :cart_id', $this->name);
-    $stmt = $this->db->query($sql);
-    $stmt->bindValue(':cart_id', $cartId);
-    $rows = $stmt->fetchAll();
+    $params = array('cart_id' => $cartId);
+    $rows = $this->query($sql, $params);
     return $rows;
   }
 
@@ -19,7 +17,7 @@ class CartDetail extends ModelBase
   public function add($data)
   {
     $sql = sprintf('INSERT INTO %s ・・・・・・・・', $this->name);
-    $res = $this->db->query($sql);
+    $res = $this->insert($sql);
     return $res;
   }
 
