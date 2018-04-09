@@ -1,5 +1,8 @@
 <?php
 
+require_once '../view/Smarty.class.php';
+require_once '../../library/Request.php';
+
 class Dispatcher
 {
   private $sysRoot;
@@ -9,6 +12,9 @@ class Dispatcher
     $this->sysRoot = rtrim($path, '/');
   }
 
+  /**
+   * 振分け処理実行
+   */
   public function dispatch()
   {
     // パラメーター取得（末尾の / は削除）
@@ -26,27 +32,52 @@ class Dispatcher
       $controller = $params[1];
     }
 
-    // パラメータより取得したコントローラー名によりクラス振分け
-    $className = ucfirst(strtolower($controller)) . 'Controller';
-
-    // クラスファイル読込
-    require_once $this->sysRoot . '/controllers/' . $className . '.php';
-
-    // クラスインスタンス生成
-    $controllerInstance = new $className();
-
-    // クラスインスタンス生成
-    $controllerInstance = new $className();
+    // １番目のパラメーターをもとにコントローラークラスインスタンス取得
+    $controllerInstance = $this->getControllerInstance($controller);
+    if (null == $controller) {
+      header("HTTP/1.0 404 Not Found");
+      exit;
+    }
 
     // 2番目のパラメーターをコントローラーとして取得
     $action= 'index';
     if (2 < count($params)) {
       $action= $params[2];
     }
+    // アクションメソッドの存在確認
+    if (false == method_exists($controllerInstance, $action . 'Action')) {
+      header("HTTP/1.0 404 Not Found");
+      exit;
+    }
 
-    // アクションメソッドを実行
-    $actionMethod = $action . 'Action';
-    $controllerInstance->$actionMethod();
+    // コントローラー初期設定
+    $controllerInstance->setSystemRoot($this->sysRoot);
+    $controllerInstance->setControllerAction($controller, $action);
+    // 処理実行
+    $controllerInstance->run();
+  }
+
+  // コントローラークラスのインスタンスを取得
+  private function getControllerInstance($controller)
+  {
+    // 一文字目のみ大文字に変換＋"Controller"
+    $className = ucfirst(strtolower($controller)) . 'Controller';
+    // コントローラーファイル名
+    $controllerFileName = sprintf('%s/app/controllers/%s.php', $this->sysRoot, $className);
+    // ファイル存在チェック
+    if (false == file_exists($controllerFileName)) {
+      return null;
+    }
+    // クラスファイルを読込
+    require_once $controllerFileName;
+    // クラスが定義されているかチェック
+    if (false == class_exists($className)) {
+      return null;
+    }
+    // クラスインスタンス生成
+    $controllerInstarnce = new $className();
+
+    return $controllerInstarnce;
   }
 }
 
