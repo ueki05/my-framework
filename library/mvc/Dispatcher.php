@@ -79,5 +79,16 @@ class Dispatcher
 
     return $controllerInstarnce;
   }
-}
 
+  protected function transferControler($controller)
+  {
+    $iniPath = $this->systemRoot . '/ini/transfer.ini';
+    if (true == file_exists($iniPath)) {
+      $ini = parse_ini_file($iniPath);
+      if (true == array_key_exists($controller, $ini)) {
+        $controller = $ini[$controller];
+      }
+    }
+    return $controller;
+  }
+}
