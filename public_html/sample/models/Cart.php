@@ -2,39 +2,41 @@
 
 class Cart
 {
-  private $db;
-  private $headerTable = 'cart_header';
-  private $detailTable = 'cart_detail';
-
-  public function __construct($user, $pass)
+  // カート情報を取得
+  public function getCartInfo($userId)
   {
-    $this->db = new PDO($user, $pass);
-  }
+    $cart = new CartHeader();
+    $cartDetail = new CartDetail();
 
-  // 新規カート作成
-  public function create($userId)
-  {
-    $sql = sprintf('INSERT INTO %s ・・・・・・・・', $this->headerTable);
-    $res = $this->db->query($sql);
-    return $res;
-  }
+    $cartInfo = $cart->getUserCart($userId);
+    $products = $cartDetail->getProductList($cartInfo['cart_id']);
+    $cartInfo['products'] = $products;
 
-  // 商品リスト取得
-  public function getList($cartId)
-  {
-    $sql = sprintf('SELECT * FROM %s where cart_id = :cart_id', $this->detailTable);
-    $stmt = $this->db->query($sql);
-    $stmt->bindValue(':cart_id', $cartId);
-    $rows = $stmt->fetchAll();
-    return $rows;
+    return $cartInfo;
   }
 
   // 商品追加
-  public function add($data)
+  public function addProduct($cartId, $productId)
   {
-    $sql = sprintf('INSERT INTO %s ・・・・・・・・', $this->detailTable);
-    $res = $this->db->query($sql);
-    return $res;
-  }
+    $db = new PDO();
+    $db->beginTransaction();
+    try
+    {
+      $cart = new CartHeader();
+      $cartDetail = new CartDetail();
 
+      // カートに商品を追加
+      $cartDetail->add($productId);
+
+      // カート情報の合計金額を更新
+      $cart->updateTotalPrice($cartId);
+
+      $db->commit();
+      return true;
+
+    } catch (Exception $e) {
+      $db->rollback();
+      throw $e;
+    }
+  }
 }

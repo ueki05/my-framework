@@ -23,23 +23,20 @@ class CartController extends ControllerBase
 
     // カート基本情報を取得
     $cart = new Cart();
-    $cartInfo = $cart->getUserCart($userId);
+    $cartInfo = $cart->getInfo($userId);
     $this->view->assign('cart_info', $cartInfo);
-
-    // 商品一覧を取得
-    $cartDetail = new CartDetail();
-    $products = $cartDetail->getProductList($cartInfo['cart_id']);
-    $this->view->assign('products', $products);
   }
 
   public function addAction()
   {
     // 追加する商品の商品IDをPOSTから取得
     $post = $this->request->getPost();
-    $productId = $post['product_id'];
+    // 商品追加処理
+    $cart = new Cart();
+    $cartInfo = $cart->addProduct($post['cart_id'], $post['product_id']);
 
-    // カートへの商品の追加処理
-    echo 'add';
+    // カート商品一覧へリダイレクト
+    header('Location: http://www.xxx.com/cart/display');
   }
 
   public function inputAction()
