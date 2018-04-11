@@ -11,6 +11,7 @@ set_include_path(get_include_path() . PATH_SEPARATOR . $incPath);
 
 // クラスのオートロード
 function __autoload($className){
+  var_dump($className);
   require_once $className . ".php";
 }
 

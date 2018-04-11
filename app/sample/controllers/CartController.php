@@ -2,9 +2,6 @@
 
 class CartController extends ControllerBase
 {
-  private $request;
-  private $view;
-
   // コンストラクタ
   public function __counstruct()
   {
