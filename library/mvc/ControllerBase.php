@@ -31,7 +31,8 @@ abstract class ControllerBase
   // 処理実行
   public function run()
   {
-    try {
+    var_dump('run1');
+//    try {
 
       // ビューの初期化
       $this->initializeView();
@@ -46,9 +47,10 @@ abstract class ControllerBase
       // 表示
       $this->view->display($this->templatePath);
 
-    } catch (Exception $e) {
+//    } catch (Exception $e) {
       // ログ出力等の処理を記述
-    }
+//    }
+    var_dump('run2');
   }
 
   // モデルインスタンス生成処理
@@ -69,6 +71,7 @@ abstract class ControllerBase
   // ビューの初期化
   protected function initializeView()
   {
+    var_dump('initializeView');
     $this->view = new Smarty();
     $this->view->template_dir = sprintf('%s/view/templates/', $this->systemRoot);
     $this->view->compile_dir = sprintf('%s/view/templates_c/', $this->systemRoot);

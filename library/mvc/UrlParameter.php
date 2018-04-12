@@ -5,12 +5,13 @@ class UrlParameter extends RequestVariables
   protected function setValues()
   {
     // パラメーター取得（末尾の / は削除）
-    $param = ereg_replace('/?$', '', $_GET['param']);
+    // $param = preg_replace('/?$', '', $_GET['param']);
+    $param = preg_replace('/\/?$/', '', $_SERVER['REQUEST_URI']);
 
     $params = array();
     if ('' != $param) {
       // パラメーターを / で分割
-      $params = explode('', $param);
+      $params = explode('/', $param);
     }
 
     if (2 < count($params)) {

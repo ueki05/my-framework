@@ -1,7 +1,6 @@
 <?php
 
-require_once("Smarty/Smarty.class.php");
-require_once '../../library/Request.php';
+// require_once 'Request.php';
 
 class Dispatcher
 {
@@ -25,7 +24,6 @@ class Dispatcher
       // パラメーターを / で分割
       $params = explode('/', $param);
     }
-
     // １番目のパラメーターをコントローラーとして取得
     $controller = "index";
     if (1 < count($params)) {
@@ -63,7 +61,7 @@ class Dispatcher
     // 一文字目のみ大文字に変換＋"Controller"
     $className = ucfirst(strtolower($controller)) . 'Controller';
     // コントローラーファイル名
-    $controllerFileName = sprintf('%s/app/controllers/%s.php', $this->sysRoot, $className);
+    $controllerFileName = sprintf('%s/controllers/%s.php', $this->sysRoot, $className);
     // ファイル存在チェック
     if (false == file_exists($controllerFileName)) {
       return null;

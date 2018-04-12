@@ -1,6 +1,6 @@
 <?php
 
-class BbsController
+class BbsController extends ControllerBase
 {
   // 記事表示
   public function threadsAction()
