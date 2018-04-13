@@ -11,7 +11,7 @@ class BbsController extends ControllerBase
       $page = $this->request->getParam('page');
     }
     // 記事データ取得
-    $data = $this->model->getThreadsData($page);
+    $data = $this->model->getThreadsData($page); // Undefined property: BbsController::$model
     // 表示
     $this->view->assign('parent', $data);
   }

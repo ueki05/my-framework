@@ -32,7 +32,7 @@ abstract class ControllerBase
   public function run()
   {
     var_dump('run1');
-//    try {
+    try {
 
       // ビューの初期化
       $this->initializeView();
@@ -47,9 +47,9 @@ abstract class ControllerBase
       // 表示
       $this->view->display($this->templatePath);
 
-//    } catch (Exception $e) {
+    } catch (Exception $e) {
       // ログ出力等の処理を記述
-//    }
+    }
     var_dump('run2');
   }
 
