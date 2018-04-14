@@ -10,14 +10,14 @@ $incPath = implode(PATH_SEPARATOR, $includes);
 set_include_path(get_include_path() . PATH_SEPARATOR . $incPath);
 
 // クラスのオートロード
-function __autoload($className){
-  var_dump($className);
+function autoloader($className){
   if (file_exists(stream_resolve_include_path($className . ".php"))) {
     require_once $className . ".php";
   } elseif (file_exists(stream_resolve_include_path($className . ".class.php"))) {
     require_once $className . ".class.php";
   }
 }
+spl_autoload_register("autoloader");
 
 // DB接続情報設定
 $connInfo = array(

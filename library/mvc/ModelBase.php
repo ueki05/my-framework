@@ -19,9 +19,10 @@ class ModelBase
   public function initDb()
   {
     $dsn = sprintf(
-      'mysql:host=%s;dbname=%s;port=8889;',
+      'mysql:host=%s;dbname=%s;port=$s;',
       self::$connInfo['host'],
-      self::$connInfo['dbname']
+      self::$connInfo['dbname'],
+      self::$connInfo['port']
     );
     $this->db = new PDO($dsn, self::$connInfo['dbuser'], self::$connInfo['password']);
   }

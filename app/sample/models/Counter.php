@@ -10,7 +10,7 @@ class Counter extends ModelBase
       $this->name
     );
     $params = array('date' => date('Ymd'));
-    $rows = $this->query($sql);
+    $rows = $this->query($sql, $params);
     $row = $rows[0];
     return $row['visit_count'];
   }
@@ -24,7 +24,7 @@ class Counter extends ModelBase
       $this->name
     );
     $params = array('date' => date('Ymd'));
-    $rows = $this->query($sql);
+    $rows = $this->query($sql, $params);
     $row = $rows[0];
     $res = false;
 
