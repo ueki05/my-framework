@@ -48,6 +48,7 @@ abstract class ControllerBase
 
     } catch (Exception $e) {
       // ログ出力等の処理を記述
+      echo $e->getMessage();
     }
   }
 
@@ -70,8 +71,9 @@ abstract class ControllerBase
   protected function initializeView()
   {
     $this->view = new Smarty();
-    $this->view->template_dir = sprintf('%s/view/templates/', $this->systemRoot);
-    $this->view->compile_dir = sprintf('%s/view/templates_c/', $this->systemRoot);
+
+    $this->view->setTemplateDir(sprintf('%s/views/templates/', $this->systemRoot));
+    $this->view->setCompileDir(sprintf('%s/views/templates_c/', $this->systemRoot));
 
     $this->templatePath = sprintf('%s/%s.tpl', $this->controller, $this->action);
   }
