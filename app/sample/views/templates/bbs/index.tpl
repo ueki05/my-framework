@@ -37,13 +37,13 @@ form {
 </head>
 <body>
 
-<form method="post" action="/sample/system/htdocs/bbs/regist">
+<form method="post" action="/bbs/regist">
   名前<br /><input type="text" name="name" size="50" /><br />
   タイトル<br /><input type="text" name="title" size="50" /><br />
   本文<br /><textarea name="contents" cols="50" rows="8"></textarea><br />
-  <input type="hidden" name="parent_no" value="{$parent_no}" />
   <input type="submit" name="write" value="書き込む" />
   {if $parent_no != ""}
+  <input type="hidden" name="parent_no" value="{$parent_no}" />
   <span class="message">No.{$parent_no}への返信です</span>
   {/if}
 </form>

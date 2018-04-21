@@ -60,10 +60,10 @@ class Bbs extends ModelBase
   // 記事登録
   public function regist($data)
   {
-    $vals['parent_no'] = $data['parent_no'];
+    $vals['parent_no'] = isset($data['parent_no']) ? $data['parent_no'] : 0;
     $vals['datetime']  = date('YmdHis');
     $vals['name']  = $data['name'];
-    $vals['pass'] = $data['pass'];
+    $vals['pass'] = isset($data['pass']) ? $data['parent_no'] : 'pass';
     $vals['title'] = $data['title'];
     $vals['contents'] = $data['contents'];
     $res = $this->insert($vals);
