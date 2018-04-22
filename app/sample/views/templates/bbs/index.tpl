@@ -42,9 +42,11 @@ form {
   タイトル<br /><input type="text" name="title" size="50" /><br />
   本文<br /><textarea name="contents" cols="50" rows="8"></textarea><br />
   <input type="submit" name="write" value="書き込む" />
-  {if $parent_no != ""}
+  {if $parent_no != 0}
   <input type="hidden" name="parent_no" value="{$parent_no}" />
   <span class="message">No.{$parent_no}への返信です</span>
+  {else}
+  <input type="hidden" name="parent_no" value="0" />
   {/if}
 </form>
 
@@ -53,13 +55,13 @@ form {
 {foreach from=$threads item=parent}
   <div class="parent">
     <div class="header">
-      No.{$parent.no}　{$parent.title}　投稿者名：{$parent.name}
-      <form method="post" action="/sample/system/htdocs/bbs/res">
-        <input type="hidden" name="parent_no" value="{$parent.no}" />
+      No.{$parent.id}　{$parent.title}　投稿者名：{$parent.name}
+      <form method="post" action="/bbs/res">
+        <input type="hidden" name="parent_no" value="{$parent.id}" />
         <input type="submit" name="res" value="返信" />
       </form>
-      <form method="post" action="/sample/system/htdocs/bbs/delete">
-        <input type="hidden" name="no" value="{$parent.no}" />
+      <form method="post" action="/bbs/delete">
+        <input type="hidden" name="no" value="{$parent.id}" />
         <input type="submit" name="del" value="削除" />
       </form>
     </div>
@@ -68,8 +70,8 @@ form {
     <div class="child">
       <div class="header">
         {$res.title}　　{$res.name}
-        <form method="post" action="/sample/system/htdocs/bbs/delete">
-          <input type="hidden" name="no" value="{$res.no}" />
+        <form method="post" action="/bbs/delete">
+          <input type="hidden" name="no" value="{$res.id}" />
           <input type="submit" name="del" value="削除" />
         </form>
       </div>

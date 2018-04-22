@@ -78,6 +78,11 @@ abstract class ControllerBase
     $this->templatePath = sprintf('%s/%s.tpl', $this->controller, $this->action);
   }
 
+  protected function redirect($redirect)
+  {
+    header("Location: {$redirect}");
+  }
+
   // 共通前処理（オーバーライド前提）
   protected function preAction()
   {
