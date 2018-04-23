@@ -7,9 +7,10 @@ class Bbs extends ModelBase
   {
     $parents = $this->getParents($limit);
     foreach ($parents as $key => $parent) {
-      $res = $this->getResponses($parent['no']);
+      $res = $this->getResponses($parent['id']);
       $parents[$key]['res'] = $res;
     }
+
     return $parents;
   }
 

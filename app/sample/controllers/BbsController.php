@@ -2,6 +2,11 @@
 
 class BbsController extends ControllerBase
 {
+  protected function preAction()
+  {
+    $this->view->assign('parent_no', 0);
+  }
+
   // 記事表示
   public function indexAction()
   {
