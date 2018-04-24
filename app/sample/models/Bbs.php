@@ -76,7 +76,7 @@ class Bbs extends ModelBase
   public function del($no)
   {
     // 指定NOの記事と、そのレス記事を全て削除
-    $where = "no = :no OR parent_no = :no";
+    $where = "id = :no OR parent_no = :no";
     $params = array("no" => $no);
     $res = $this->delete($where, $params);
 
