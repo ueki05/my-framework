@@ -33,6 +33,7 @@ form {
 }
 {/literal}
 </style>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
 <body>
 
@@ -81,11 +82,23 @@ form {
 {/foreach}
 
 </div>
+<div id="messages">
+</div>
 <div class="loading">
-  <p id="loading">Loading...</p>
+  <p id="loading" style="display: none;">Loading...</p>
   <input type="button" id="more" value="もっと読む">
 </div>
 <script>
+$(function() {
+  $('#more').click(function() {
+    $('#loading').show();
+    $.get('more', {
+    }, function(rs) {
+      $('#loading').hide();
+      $(rs).appendTo('#messages');
+    });
+  });
+});
 </script>
 </body>
 </html>
