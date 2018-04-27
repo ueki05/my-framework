@@ -3,9 +3,11 @@
 class Bbs extends ModelBase
 {
   // 記事データを親記事とレス記事の階層状態で取得
-  public function getThreads($limit)
+  public function getThreads($limit, $page)
   {
-    $parents = $this->getParents($limit);
+    $all = $limit * $page;
+    $offset = $limit * ($page - 1);
+    $parents = $this->getParents($all, $offset);
     foreach ($parents as $key => $parent) {
       $res = $this->getResponses($parent['id']);
       $parents[$key]['res'] = $res;
@@ -15,7 +17,7 @@ class Bbs extends ModelBase
   }
 
   // 指定件数の親記事を取得
-  public function getParents($limit)
+  public function getParents($limit, $offset)
   {
     $sql = sprintf("
       SELECT
@@ -28,9 +30,12 @@ class Bbs extends ModelBase
       datetime DESC
       LIMIT
       %s
+      OFFSET
+      %s
       ",
       $this->name,
-      $limit
+      $limit,
+      $offset
     );
     $rows = $this->query($sql);
 

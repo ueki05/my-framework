@@ -10,9 +10,15 @@ class BbsController extends ControllerBase
   // 記事表示
   public function indexAction()
   {
+    // URLパラメータよりページ数取得
+    $page = 1;
+    if (null != $this->request->getParam('page')) {
+      $page = $this->request->getParam('page');
+    }
+
     // データ取得
     $bbs = new Bbs();
-    $threads = $bbs->getThreads(100);
+    $threads = $bbs->getThreads(10, $page);
     // テンプレートへ出力
     $this->view->assign('threads', $threads);
   }
